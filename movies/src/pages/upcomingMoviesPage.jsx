@@ -4,6 +4,7 @@ import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 
 const upcomingMovies = (props) => {
@@ -33,7 +34,7 @@ const upcomingMovies = (props) => {
         title="Discover Movies"
         movies={movies}
         action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />
+          return <PlaylistAddIcon movie={movie} />
         }}
       />
   );
