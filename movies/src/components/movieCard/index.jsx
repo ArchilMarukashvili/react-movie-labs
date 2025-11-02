@@ -10,38 +10,35 @@ import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
-import img from '../../images/film-poster-placeholder.png'
+import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router";
-import Avatar from '@mui/material/Avatar';
-import React, { useContext  } from "react";
+import Avatar from "@mui/material/Avatar";
+import React, { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"; // Added
 
+export default function MovieCard({ movie, action }) {
+  const { favorites, addToFavorites, watchlist, addToWatchlist } = useContext(MoviesContext);
 
-
-
-export default function MovieCard({ movie, action }) 
- {
-     const { favorites, addToFavorites } = useContext(MoviesContext);
-
-  if (favorites.find((id) => id === movie.id)) {
-    movie.favorite = true;
-  } else {
-    movie.favorite = false  
-  }
+  movie.favorite = favorites.includes(movie.id);
+  movie.watchlisted = watchlist.includes(movie.id);
 
   const handleAddToFavorite = (e) => {
     e.preventDefault();
     addToFavorites(movie);
   };
 
-
+  const handleAddToWatchlist = (e) => {
+    e.preventDefault();
+    addToWatchlist(movie);
+  };
 
   return (
     <Card>
-            <CardHeader
+      <CardHeader
         avatar={
           movie.favorite ? (
-            <Avatar sx={{ backgroundColor: 'red' }}>
+            <Avatar sx={{ backgroundColor: "red" }}>
               <FavoriteIcon />
             </Avatar>
           ) : null
@@ -61,34 +58,45 @@ export default function MovieCard({ movie, action })
             : img
         }
       />
+
       <CardContent>
         <Grid container>
-          <Grid size={{xs: 6}}>
+          <Grid size={{ xs: 6 }}>
             <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
-              {movie.release_date}
+              <CalendarIcon fontSize="small" /> {movie.release_date}
             </Typography>
           </Grid>
-          <Grid size={{xs: 6}}>
+          <Grid size={{ xs: 6 }}>
             <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
+              <StarRateIcon fontSize="small" /> {movie.vote_average}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
-            <CardActions disableSpacing>
-      
+
+      <CardActions disableSpacing>
+        {/* Favorites */}
+        <IconButton aria-label="add to favorites" onClick={handleAddToFavorite}>
+          <FavoriteIcon
+            color={movie.favorite ? "error" : "disabled"}
+          />
+        </IconButton>
+
+        {/* Watchlist */}
+        <IconButton aria-label="add to watchlist" onClick={handleAddToWatchlist}>
+          <PlaylistAddIcon
+            color={movie.watchlisted ? "primary" : "disabled"}
+          />
+        </IconButton>
+
         {action(movie)}
-      
+
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>
         </Link>
-        
       </CardActions>
-
     </Card>
   );
 }

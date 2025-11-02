@@ -12,6 +12,10 @@ import MovieReviews from "../movieReviews";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { Link } from "react-router";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import { useQuery } from "@tanstack/react-query";
+import { getMovieVideos } from "../../api/tmdb-api";
 
 const root = {
   display: "flex",
@@ -25,6 +29,17 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [openTrailer, setOpenTrailer] = useState(false);
+
+  const { data: videos } = useQuery({
+    queryKey: ["movieVideos", { id: movie.id }],
+    queryFn: () => getMovieVideos(movie.id),
+  });
+
+  const trailer =
+    videos?.results?.find(
+      (v) => v.type === "Trailer" && v.site === "YouTube"
+    ) || null;
 
   return (
     <>
@@ -95,6 +110,48 @@ const MovieDetails = ({ movie }) => {
       >
         View Credits
       </Button>
+
+      {trailer && (
+        <>
+          <Button
+            onClick={() => setOpenTrailer(true)}
+            variant="contained"
+            sx={{
+              mt: 2,
+              fontWeight: "bold",
+              bgcolor: "red",
+              color: "white",
+              "&:hover": { bgcolor: "#d32f2f" },
+            }}
+          >
+            Play Trailer
+          </Button>
+
+          <Modal open={openTrailer} onClose={() => setOpenTrailer(false)}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                bgcolor: "black",
+                boxShadow: 24,
+                p: 2,
+                borderRadius: 2,
+              }}
+            >
+              <iframe
+                width="800"
+                height="450"
+                src={`https://www.youtube.com/embed/${trailer.key}`}
+                title="Trailer"
+                frameBorder="0"
+                allowFullScreen
+              />
+            </Box>
+          </Modal>
+        </>
+      )}
 
       <Fab
         color="secondary"
