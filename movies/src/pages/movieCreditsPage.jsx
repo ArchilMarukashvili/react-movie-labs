@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getMovieCredits } from "../api/tmdb-api";
+import { Link } from "react-router";
 
 export default function MovieCreditsPage() {
   const { id } = useParams();
@@ -22,7 +23,8 @@ export default function MovieCreditsPage() {
       <ul>
         {cast.map((member) => (
           <li key={member.cast_id}>
-            {member.name} — {member.character}
+            <Link to={`/person/${member.id}`}>{member.name}</Link> —{" "}
+            {member.character}
           </li>
         ))}
       </ul>

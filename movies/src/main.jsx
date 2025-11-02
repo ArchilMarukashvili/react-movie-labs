@@ -15,6 +15,7 @@ import MovieCreditsPage from "./pages/movieCreditsPage";
 import PopularMoviesPage from "./pages/popularMoviesPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import PersonDetailsPage from "./pages/personDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -65,6 +66,7 @@ const App = () => {
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/movies/:id/credits" element={<MovieCreditsPage />} />
               <Route path="/movies/popular" element={<PopularMoviesPage />} />
+              <Route path="/person/:id" element={<PersonDetailsPage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
