@@ -75,7 +75,7 @@ export default function FilterMoviesCard(props) {
           onChange={handleTextChange}
         />
 
-        {/* Genre Selector */}
+        
         <FormControl sx={{ ...formControl }}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
@@ -92,17 +92,17 @@ export default function FilterMoviesCard(props) {
           </Select>
         </FormControl>
 
-        {/* Rating Filter */}
+
         <TextField
-          sx={{ ...formControl }}
-          id="rating-filter"
-          label="Minimum Rating"
-          type="number"
-          variant="filled"
-          inputProps={{ min: 0, max: 10, step: 0.1 }}
-          value={props.ratingFilter}
-          onChange={handleRatingChange}
-        />
+  sx={{ ...formControl }}
+  id="rating-filter"
+  label="Minimum Rating"
+  type="number"
+  variant="filled"
+  inputProps={{ min: 0, max: 10, step: 0.1 }}
+  value={props.ratingFilter === 0 ? "" : props.ratingFilter}
+  onChange={handleRatingChange}
+/>
       </CardContent>
 
       <CardMedia sx={{ height: 300 }} image={img} title="Filter" />
