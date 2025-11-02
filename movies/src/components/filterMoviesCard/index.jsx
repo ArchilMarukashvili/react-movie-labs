@@ -13,6 +13,8 @@ import React from "react";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../spinner";
+import Slider from "@mui/material/Slider";
+
 
 const formControl = {
   margin: 1,
@@ -93,16 +95,23 @@ export default function FilterMoviesCard(props) {
         </FormControl>
 
 
-        <TextField
-  sx={{ ...formControl }}
-  id="rating-filter"
-  label="Minimum Rating"
-  type="number"
-  variant="filled"
-  inputProps={{ min: 0, max: 10, step: 0.1 }}
-  value={props.ratingFilter === 0 ? "" : props.ratingFilter}
-  onChange={handleRatingChange}
-/>
+       <FormControl sx={{ ...formControl }}>
+  <Typography gutterBottom>Minimum Rating</Typography>
+  <Slider
+    value={props.ratingFilter}
+    onChange={(e, newValue) => handleChange(e, "rating", newValue)}
+    step={0.1}
+    min={0}
+    max={10}
+    marks={[
+      { value: 0, label: "0" },
+      { value: 5, label: "5" },
+      { value: 10, label: "10" },
+    ]}
+    valueLabelDisplay="auto"
+  />
+</FormControl>
+
       </CardContent>
 
       <CardMedia sx={{ height: 300 }} image={img} title="Filter" />
