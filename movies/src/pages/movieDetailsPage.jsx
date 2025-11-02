@@ -4,7 +4,10 @@ import MovieDetails from "../components/movieDetails/";
 import PageTemplate from "../components/templateMoviePage";
 import { getMovie } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../components/spinner'
+import Spinner from '../components/spinner';
+import { Link } from "react-router";
+
+
 
 
 const MoviePage = (props) => {
@@ -21,21 +24,28 @@ const MoviePage = (props) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+  
 
 
-  return (
-    <>
-      {movie ? (
-        <>
-          <PageTemplate movie={movie}>
-            <MovieDetails movie={movie} />
-          </PageTemplate>
-        </>
-      ) : (
-        <p>Waiting for movie details</p> 
-      )}
-    </>
-  );
+ return (
+  <>
+    {movie ? (
+      <>
+        <PageTemplate movie={movie}>
+          <MovieDetails movie={movie} />
+           <Link to={`/movies/${movie.id}/credits`} style={{ display: "block", marginTop: "20px" }}>
+          View Credits
+           </Link>
+        </PageTemplate>
+        
+      </>
+    ) : (
+      <p>Waiting for movie details</p>
+    )}
+  </>
+);
 };
+
+
 
 export default MoviePage;
