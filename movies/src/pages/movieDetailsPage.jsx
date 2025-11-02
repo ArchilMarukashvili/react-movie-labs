@@ -33,10 +33,7 @@ const MoviePage = (props) => {
       <>
         <PageTemplate movie={movie}>
           <MovieDetails movie={movie} />
-           <Link to={`/movies/${movie.id}/credits`} style={{ display: "block", marginTop: "20px" }}>
-          View Credits
-           </Link>
-        </PageTemplate>
+                  </PageTemplate>
         
       </>
     ) : (

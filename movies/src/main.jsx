@@ -36,7 +36,7 @@ const theme = createTheme({
       main: "#f44336", 
     },
     background: {
-      default: "#0008ebff", // overall page background
+      default: "#fbff00ff", // overall page background
       paper: "#ffa200ff", // card & container background
     },
     text: {
