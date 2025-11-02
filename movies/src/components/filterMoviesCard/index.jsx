@@ -8,13 +8,12 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Slider from "@mui/material/Slider";
 import img from "../../images/pexels-dziana-hasanbekava-5480827.jpg";
 import React from "react";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../spinner";
-import Slider from "@mui/material/Slider";
-
 
 const formControl = {
   margin: 1,
@@ -41,17 +40,9 @@ export default function FilterMoviesCard(props) {
     props.onUserInput(type, value);
   };
 
-  const handleTextChange = (e) => {
-    handleChange(e, "name", e.target.value);
-  };
-
-  const handleGenreChange = (e) => {
-    handleChange(e, "genre", e.target.value);
-  };
-
-  const handleRatingChange = (e) => {
-    handleChange(e, "rating", e.target.value);
-  };
+  const handleTextChange = (e) => handleChange(e, "name", e.target.value);
+  const handleGenreChange = (e) => handleChange(e, "genre", e.target.value);
+  const handleSortChange = (e) => handleChange(e, "sort", e.target.value);
 
   return (
     <Card
@@ -77,7 +68,7 @@ export default function FilterMoviesCard(props) {
           onChange={handleTextChange}
         />
 
-        
+        {/* Genre Filter */}
         <FormControl sx={{ ...formControl }}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
@@ -94,24 +85,38 @@ export default function FilterMoviesCard(props) {
           </Select>
         </FormControl>
 
+        {/* Minimum Rating Slider */}
+        <FormControl sx={{ ...formControl }}>
+          <Typography gutterBottom>Minimum Rating</Typography>
+          <Slider
+            value={props.ratingFilter}
+            onChange={(e, newValue) => handleChange(e, "rating", newValue)}
+            step={0.1}
+            min={0}
+            max={10}
+            marks={[
+              { value: 0, label: "0" },
+              { value: 5, label: "5" },
+              { value: 10, label: "10" },
+            ]}
+            valueLabelDisplay="auto"
+          />
+        </FormControl>
 
-       <FormControl sx={{ ...formControl }}>
-  <Typography gutterBottom>Minimum Rating</Typography>
-  <Slider
-    value={props.ratingFilter}
-    onChange={(e, newValue) => handleChange(e, "rating", newValue)}
-    step={0.1}
-    min={0}
-    max={10}
-    marks={[
-      { value: 0, label: "0" },
-      { value: 5, label: "5" },
-      { value: 10, label: "10" },
-    ]}
-    valueLabelDisplay="auto"
-  />
-</FormControl>
-
+        {/* Sort By Dropdown */}
+        <FormControl sx={{ ...formControl }}>
+          <InputLabel id="sort-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-label"
+            id="sort-select"
+            value={props.sortOption}
+            onChange={handleSortChange}
+          >
+            <MenuItem value="title">Title (A–Z)</MenuItem>
+            <MenuItem value="rating">Rating (High → Low)</MenuItem>
+            <MenuItem value="release">Release Date (Newest)</MenuItem>
+          </Select>
+        </FormControl>
       </CardContent>
 
       <CardMedia sx={{ height: 300 }} image={img} title="Filter" />
